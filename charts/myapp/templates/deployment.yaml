@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "myapp.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ include "myapp.name" . }}
 spec:
