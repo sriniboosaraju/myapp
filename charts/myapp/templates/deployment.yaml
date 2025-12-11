@@ -23,4 +23,4 @@ spec:
         - containerPort: 3000
         env:
         - name: GIT_COMMIT
-          value: "{{ .Chart.AppVersion }}"
+          value: "{{ .Values.image.tag }}"
