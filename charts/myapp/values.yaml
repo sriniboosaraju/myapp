@@ -10,5 +10,6 @@ service:
   port: 80
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "classic"
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "automation:destroy-date=2026-12-31"
 
 resources: {}
