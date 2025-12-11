@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/sriniboosaraju/monorepo.git'
+    repoURL: 'https://github.com/sriniboosaraju/myapp.git'
     targetRevision: HEAD
     path: charts/myapp
     helm:
