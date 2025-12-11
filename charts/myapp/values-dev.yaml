@@ -1,0 +1,13 @@
+# environment-specific overrides for dev
+replicaCount: 1
+
+image:
+  repository: ghcr.io/sriniboosaraju/myapp
+  tag: "dev-latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "classic"
