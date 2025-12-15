@@ -53,7 +53,13 @@ jobs:
         echo "Updating image tag to $TAG in charts/myapp/values-dev.yaml"
         sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
         sudo chmod +x /usr/local/bin/yq
-        # Update tag inside values-dev.yaml
+        
+        # Checkout main branch to update values there
+        git fetch origin main
+        git checkout main
+        git pull origin main
+        
+        # Update tag inside values-dev.yaml on main branch
         yq -i ".image.tag = \"${TAG}\"" charts/myapp/values-dev.yaml
 
     - name: Commit and push values-dev change
@@ -66,7 +72,5 @@ jobs:
         git config user.email "$GIT_COMMITTER_EMAIL"
         git add charts/myapp/values-dev.yaml
         git commit -m "ci: bump dev image tag to ${TAG} [ci skip]" || echo "No changes to commit"
-        # Pull latest changes first to avoid conflicts
-        git pull --rebase origin main
-        git push origin HEAD:main
+        git push origin main
       # The above uses the default GITHUB_TOKEN that Actions provides for pushing back to the same repo
