@@ -67,6 +67,6 @@ jobs:
         git add charts/myapp/values-dev.yaml
         git commit -m "ci: bump dev image tag to ${TAG} [ci skip]" || echo "No changes to commit"
         # Pull latest changes first to avoid conflicts
-        git pull --rebase origin dev
-        git push origin HEAD:dev
+        git pull --rebase origin main
+        git push origin HEAD:main
       # The above uses the default GITHUB_TOKEN that Actions provides for pushing back to the same repo
