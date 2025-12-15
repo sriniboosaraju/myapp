@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - dev
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   build-push-update:
@@ -65,5 +66,7 @@ jobs:
         git config user.email "$GIT_COMMITTER_EMAIL"
         git add charts/myapp/values-dev.yaml
         git commit -m "ci: bump dev image tag to ${TAG} [ci skip]" || echo "No changes to commit"
-        git push origin HEAD:dev
+        # Pull latest changes first to avoid conflicts
+        git pull --rebase origin main
+        git push origin HEAD:main
       # The above uses the default GITHUB_TOKEN that Actions provides for pushing back to the same repo
