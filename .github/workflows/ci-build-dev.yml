@@ -1,8 +1,8 @@
-name: Build & Publish image, update values-dev
+name: Build & Deploy to Dev
 
 permissions:
-  contents: write       # to commit back to the repo
-  packages: write       # to push to ghcr
+  contents: write
+  packages: write
   id-token: write
 
 on:
@@ -60,9 +60,10 @@ jobs:
         GIT_COMMITTER_NAME: "github-actions[bot]"
         GIT_COMMITTER_EMAIL: "github-actions[bot]@users.noreply.github.com"
       run: |
+        TAG=${{ steps.vars.outputs.TAG }}
         git config user.name "$GIT_COMMITTER_NAME"
         git config user.email "$GIT_COMMITTER_EMAIL"
         git add charts/myapp/values-dev.yaml
-        git commit -m "ci: bump image tag to ${TAG} [ci skip]" || echo "No changes to commit"
+        git commit -m "ci: bump dev image tag to ${TAG} [ci skip]" || echo "No changes to commit"
         git push origin HEAD:main
       # The above uses the default GITHUB_TOKEN that Actions provides for pushing back to the same repo

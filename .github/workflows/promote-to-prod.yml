@@ -1,0 +1,61 @@
+name: Promote to Production
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag to promote from Staging (e.g., abc1234)'
+        required: true
+        type: string
+      approval:
+        description: 'Type "APPROVE" to confirm production deployment'
+        required: true
+        type: string
+
+jobs:
+  promote-to-prod:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Verify approval
+      run: |
+        if [ "${{ github.event.inputs.approval }}" != "APPROVE" ]; then
+          echo "❌ Production deployment not approved. You must type 'APPROVE' to proceed."
+          exit 1
+        fi
+    
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Install yq
+      run: |
+        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq
+    
+    - name: Update Production values with promoted tag
+      run: |
+        TAG=${{ github.event.inputs.tag }}
+        echo "Promoting image tag $TAG to Production"
+        yq -i ".image.tag = \"${TAG}\"" charts/myapp/values-prod.yaml
+    
+    - name: Commit and push Production values change
+      env:
+        GIT_COMMITTER_NAME: "github-actions[bot]"
+        GIT_COMMITTER_EMAIL: "github-actions[bot]@users.noreply.github.com"
+      run: |
+        TAG=${{ github.event.inputs.tag }}
+        git config user.name "$GIT_COMMITTER_NAME"
+        git config user.email "$GIT_COMMITTER_EMAIL"
+        git add charts/myapp/values-prod.yaml
+        git commit -m "promote: Production to image tag ${TAG} [ci skip]"
+        git push origin HEAD:main
+    
+    - name: Summary
+      run: |
+        echo "✅ Successfully promoted tag ${{ github.event.inputs.tag }} to Production"
+        echo "ArgoCD will sync the change to myapp-prod namespace"
