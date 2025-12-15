@@ -1,11 +1,9 @@
 # QA environment overrides
 replicaCount: 2
-
 image:
   repository: ghcr.io/sriniboosaraju/myapp
-  tag: "promote-me"
+  tag: "004829c"
   pullPolicy: Always
-
 service:
   type: LoadBalancer
   port: 80
@@ -13,7 +11,6 @@ service:
     service.beta.kubernetes.io/aws-load-balancer-type: "classic"
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
     service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "automation:destroy-date=2026-12-31,environment=qa"
-
 env:
   - name: NODE_ENV
     value: "qa"
