@@ -1,4 +1,18 @@
-name: Build & Deploy to Dev
+name: Build and Deploy to Dev
+
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:  # Manual trigger
+
+jobs: Deploy to Dev
 
 permissions:
   contents: write

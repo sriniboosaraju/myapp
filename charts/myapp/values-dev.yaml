@@ -1,8 +1,8 @@
 # environment-specific overrides for dev
-replicaCount: 2
+replicaCount: 1
 image:
   repository: ghcr.io/sriniboosaraju/myapp
-  tag: "004829c"
+  tag: "0f2bfa9"
   pullPolicy: Always
 service:
   type: LoadBalancer
