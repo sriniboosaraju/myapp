@@ -2,7 +2,7 @@
 replicaCount: 1
 image:
   repository: ghcr.io/sriniboosaraju/myapp
-  tag: "0f2bfa9"
+  tag: "bc3334a"
   pullPolicy: Always
 service:
   type: LoadBalancer
