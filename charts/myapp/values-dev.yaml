@@ -1,5 +1,5 @@
 # environment-specific overrides for dev
-replicaCount: 1
+replicaCount: 2
 image:
   repository: ghcr.io/sriniboosaraju/myapp
   tag: "4089d6a"
